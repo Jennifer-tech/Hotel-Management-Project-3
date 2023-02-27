@@ -13,7 +13,7 @@ app.use(express.json())
 
 
 //routes
-app.get('/hello', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
     res.send("Hotel Management App")
 })
 
