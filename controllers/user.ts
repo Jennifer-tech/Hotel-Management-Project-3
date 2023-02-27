@@ -2,9 +2,10 @@ const UserModel = require('../model/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+import { Request, Response } from 'express';
 
 
-exports.register = async (req, res) => {
+exports.register = async (req: Request, res: Response) => {
     const { name, email, password, role } = req.body;
 
     try {
@@ -17,13 +18,13 @@ exports.register = async (req, res) => {
             name, email, password: passwordHash, role
         })
         res.status(201).json({ status: 'success', message: 'New user created successfully.', newUser });
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         res.status(500).json({ status: 'error', message: 'Something broke!', error: error?.message });
     }
 }
 
-exports.login =  async (req, res) => {
+exports.login =  async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
@@ -39,17 +40,17 @@ exports.login =  async (req, res) => {
         }
         const token = jwt.sign(payload, process.env.JWT_TOKEN, {expiresIn: '3d'});
         res.status(200).json({message: 'Login successful', token})
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         res.status(500).json({ status: 'error', message: 'Something broke!', error: error?.message });
     }
 }
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async (req: Request, res: Response) => {
     try {
         const users = await UserModel.find({});
         res.status(200).json({message: 'Successful', data: users});
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         res.status(500).json({ status: 'error', message: 'Something broke!', error: error?.message });
     }

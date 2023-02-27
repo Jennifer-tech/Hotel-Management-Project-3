@@ -1,10 +1,10 @@
 require('./db/connect')
-const express = require('express');
+import express, { Request, Response, NextFunction } from 'express';
 const app = express();
 //to import the route
-const rooms = require('./routes/rooms')
-const userRoutes = require('./routes/user');
-const roomTypeRoutes = require('./routes/roomType');
+const rooms = require('./routes/rooms');
+import userRoutes from './routes/user';
+import roomTypeRoutes from './routes/roomType';
 
 // inorder to send json from our application and 
 // inorder to access that data in our route, we need middleware that is built-in in express and the middleware is express json 
@@ -13,7 +13,7 @@ app.use(express.json())
 
 
 //routes
-app.get('/hello', (req, res) => {
+app.get('/hello', (req: Request, res: Response) => {
     res.send("Hotel Management App")
 })
 
@@ -22,11 +22,11 @@ app.use('/api/v1/rooms', rooms);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/roomType', roomTypeRoutes);
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.log(err.message)
     res.send('An error occured!');
 })
 
 const port = 5000;
 
-app.listen(port, console.log(`server is listening on port ${port}...`));
+app.listen(port, () => console.log(`server is listening on port ${port}...`));

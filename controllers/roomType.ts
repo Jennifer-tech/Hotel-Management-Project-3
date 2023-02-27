@@ -1,7 +1,11 @@
 const RoomTypeModel = require("../model/roomType");
+import { Request, Response } from 'express';
 
+export interface IAuthRequest extends Request {
+    user: any
+}
 
-exports.getRoomType = async (req, res) => {
+exports.getRoomType = async (req: IAuthRequest, res: Response) => {
     const { role } = req.user;
     if (role !== 'admin') return res.status(401).json({message: "You are not authorized to get roomtype"})
 
@@ -16,7 +20,7 @@ exports.getRoomType = async (req, res) => {
 
 
 
-exports.addRoomType = async (req, res) => {
+exports.addRoomType = async (req: IAuthRequest, res: Response) => {
     const { role } = req.user;
     const { name, price } = req.body
     if (role !== 'admin') return res.status(401).json({message: "You are not authorized to add roomtype"})
@@ -32,7 +36,7 @@ exports.addRoomType = async (req, res) => {
     }
 }
 
-exports.editRoomType = async (req, res) => {
+exports.editRoomType = async (req: Request & {user: any}, res: Response) => {
     const { role } = req.user;
     const { id } = req.params;
     const { name, price } = req.body
@@ -48,7 +52,7 @@ exports.editRoomType = async (req, res) => {
     }
 }
 
-exports.deleteRoomType = async (req, res) => {
+exports.deleteRoomType = async (req: IAuthRequest , res: Response) => {
     const { role } = req.user;
     const { id } = req.params;
     if (role !== 'admin') return res.status(401).json({message: "You are not authorized to delete roomtype"})

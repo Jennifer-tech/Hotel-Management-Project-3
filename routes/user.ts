@@ -1,6 +1,6 @@
 const { response } = require('express');
 const { request } = require('express');
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator();
@@ -41,7 +41,7 @@ router.get('/', getAllUsers);
 
 /**
  * 
- * @param {request} req 
+ * @param {import('express').Request} req 
  * @param {response} res 
  * @param {import('express').NextFunction} next 
  */
@@ -67,4 +67,4 @@ router.get('/', getAllUsers);
 //     }
 // })
 
-module.exports = router;
+export default router;

@@ -1,20 +1,20 @@
 const { response } = require('express')
 const { request } = require('express')
-const jwt = require('jsonwebtoken');
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
+interface User extends Request{
+    user: any;
+}
 
-/**
- * 
- * @param {request} req 
- * @param {response} res 
- * @param {import('express').NextFunction} next 
- */
-exports.validateToken = async (req, res, next) => {
+const jwtToken: any = process.env.JWT_TOKEN;
+
+exports.validateToken = async (req: User, res: Response, next: NextFunction) => {
     const token = req.headers['authorization'];
     if (!token) return res.status(400).json({message: "authentication token is required."});
 
     try {
-        const payload = jwt.verify(token, process.env.JWT_TOKEN);
+        const payload = jwt.verify(token, jwtToken);
         req.user = payload;
         next();
     } catch (error) {
